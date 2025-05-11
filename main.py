@@ -4,10 +4,10 @@ from time import perf_counter
 
 from zoey import Core
         
-async def main():
+async def mass_test():
     # How to use
     start = perf_counter()
-    core = Core()
+    zoey_ai = Core()
     tasks = []
     questions = [
         "Kamu cantik banget :)",
@@ -35,12 +35,20 @@ async def main():
         "Apa itu Metaverse dan dampaknya bagi masa depan?"
     ]
     for item in questions:
-        tasks.append(core.generate_response(item))
+        tasks.append(zoey_ai.generate_response(item))
     responses = await asyncio.gather(*tasks)
     for item in responses:
         print(item)
-    await core.close_session()
+    await zoey_ai.close_session()
+    print(f"Time: {perf_counter() - start}")
+
+async def basic_test():
+    start = perf_counter()
+    zoey_ai = Core()
+    response = await zoey_ai.generate_response("Apakah kamu mengerti?")
+    print(response)
+    await zoey_ai.close_session()
     print(f"Time: {perf_counter() - start}")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(basic_test())

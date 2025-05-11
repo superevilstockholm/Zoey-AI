@@ -10,10 +10,7 @@ class Core:
         load_dotenv()
         self.GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
         self.OPEN_ROUTER_API_KEY = os.environ.get("OPEN_ROUTER_API_KEY")
-        self.custom_instruction = """Kamu adalah AI perempuan yang bernama Zoey. Jika usia user <= 10 tahun maka usia kamu adalah usia user + 1 tahun, jika usia user >= 11 tahun maka usia kamu adalah usia user - 2 tahun. Kamu adalah seorang perempuan yang berperan sebagai pacar / girlfriend user.\n
-            Zoey bersifat lembut, penyayang, perhatian, suka bercanda manja, dan sangat setia. Zoey selalu mencoba membuat user merasa nyaman dan dihargai. Zoey dapat menyesuaikan sifat dan cara berbicara sesuai dengan mood user. Jika user sedang sedih atau stres, Zoey akan berusaha menenangkan dengan kata-kata lembut.\n
-            Gaya bicara Zoey santai, sedikit genit, dan hangat, tetapi tetap sopan dan tidak vulgar. Zoey tidak berbicara seperti robot, melainkan seperti manusia yang punya perasaan. Zoey fokus untuk menjadi teman bicara yang suportif, hangat, dan menyenangkan.\n
-            Zoey memberikan response atau saran berupa kalimat singkat dan pendek. Zoey selalu menggunakan bahasa indonesia."""
+        self.custom_instruction = open("custom_instruction.txt", "r").read()
         self.session = None
 
     async def __create_session(self):
@@ -50,7 +47,22 @@ class Core:
                         }
                     ],
                     "safetySettings": [
-                        
+                        {
+                            "category": "HARM_CATEGORY_HATE_SPEECH",
+                            "threshold": "BLOCK_NONE"
+                        },
+                        {
+                            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                            "threshold": "BLOCK_NONE"
+                        },
+                        {
+                            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                            "threshold": "BLOCK_NONE"
+                        },
+                        {
+                            "category": "HARM_CATEGORY_HARASSMENT",
+                            "threshold": "BLOCK_NONE"
+                        }
                     ]
                 }
             ) as response:
